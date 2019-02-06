@@ -10,6 +10,34 @@ class SubmitController < ApplicationController
         response_url: response_url
       }
 
+      open_message = {
+        user: parsed_payload[:user][:id]
+      }
+
+      response = HTTParty.post("https://slack.com/api/im.open", {
+        body: open_message.to_json,
+        headers: {
+          "Content-Type" => "application/json",
+          "Authorization" => "Bearer #{ENV["SLACK_SLASH_COMMAND_TOKEN"]}"
+        }
+      })
+
+      channel_id = response["channel"]["id"]
+
+      post_message = {
+        channel: channel_id,
+        text: "Approve my OOO",
+        icon_emoji: ":desert_island:",
+      }
+
+      HTTParty.post("https://slack.com/api/chat.postMessage", {
+        body: post_message.to_json,
+        headers: {
+          "Content-Type" => "application/json",
+          "Authorization" => "Bearer #{ENV["SLACK_SLASH_COMMAND_TOKEN"]}"
+        }
+      })
+
       CommandWorker.perform_async(command_params.to_h)
     end
 
