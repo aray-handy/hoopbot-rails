@@ -12,6 +12,6 @@ class HoopbotController < ApplicationController
   end
 
   def command_params
-    params.permit(:text, :token, :user_id, :response_url)
+    params.permit(:user_name, :text, :token, :response_url)
   end
 end
