@@ -1,6 +1,6 @@
 module Commands
   class Add
-    attr_accessor :type, :start_date, :end_date, :response_url, :user_name
+    attr_accessor :type, :start_date, :end_date, :response_url, :user_name, :description
 
     def initialize(params)
       @type = params["type"]
@@ -12,6 +12,7 @@ module Commands
                     @start_date
                   end
       @response_url = params["response_url"]
+      @description = params["description"]
     end
 
     def run
@@ -19,10 +20,9 @@ module Commands
         slack_user_name: user_name,
         hoop_type: type,
         start_date: start_date,
-        end_date: end_date
+        end_date: end_date,
+        description: description,
       }
-
-      SheetWriter.write(*params.values)
 
       HoopEvent.create!(params)
 

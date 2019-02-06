@@ -8,6 +8,10 @@ class HoopEvent < ApplicationRecord
   end
 
   def name
-    "#{slack_user_name} is #{hoop_type}"
+    if description.present?
+      "#{slack_user_name} is #{hoop_type} - #{description}"
+    else
+      "#{slack_user_name} is #{hoop_type}"
+    end
   end
 end
