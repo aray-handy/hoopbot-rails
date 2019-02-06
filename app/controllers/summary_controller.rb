@@ -29,10 +29,24 @@ class SummaryController < ApplicationController
   end
 
   def start_of_period
-    DateTime.now.send("beginning_of_#{@type}".to_sym)
+    if start_date
+      start_date.send("beginning_of_#{@type}".to_sym)
+    else
+      DateTime.now.send("beginning_of_#{@type}".to_sym)
+    end
   end
 
   def end_of_period
-    DateTime.now.send("end_of_#{@type}".to_sym)
+    if start_date
+      start_date.send("end_of_#{@type}".to_sym)
+    else
+      DateTime.now.send("end_of_#{@type}".to_sym)
+    end
+  end
+
+  def start_date
+    Date.parse(params[:start_date], "%Y-%m-%d")
+  rescue
+    nil
   end
 end
