@@ -63,7 +63,7 @@ class AddController < ApplicationController
       body: message.to_json,
       headers: {
         "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{ENV["SLACK_SLASH_COMMAND_TOKEN"]}"
+        "Authorization" => "Bearer #{ENV["SLACK_USER_TOKEN"]}"
       }
     })
   end

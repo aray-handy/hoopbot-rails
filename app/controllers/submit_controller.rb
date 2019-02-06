@@ -18,7 +18,7 @@ class SubmitController < ApplicationController
         body: open_message.to_json,
         headers: {
           "Content-Type" => "application/json",
-          "Authorization" => "Bearer #{ENV["SLACK_SLASH_COMMAND_TOKEN"]}"
+          "Authorization" => "Bearer #{ENV["SLACK_BOT_TOKEN"]}"
         }
       })
 
@@ -26,15 +26,37 @@ class SubmitController < ApplicationController
 
       post_message = {
         channel: channel_id,
-        text: "Approve my OOO",
+        text: "Approve vacay for #{parsed_payload[:user][:name]}",
         icon_emoji: ":desert_island:",
+        attachments: [
+          {
+            "fallback": "Woops something went wrong",
+            "callback_id": "wopr_approver",
+            "color": "#3AA3E3",
+            "attachment_type": "default",
+            "actions": [
+              {
+                "name": "yes",
+                "text": "Yes",
+                "type": "button",
+                "value": "yes"
+              },
+              {
+                "name": "no",
+                "text": "No",
+                "type": "button",
+                "value": "no"
+              }
+            ]
+          }
+        ]
       }
 
       HTTParty.post("https://slack.com/api/chat.postMessage", {
         body: post_message.to_json,
         headers: {
           "Content-Type" => "application/json",
-          "Authorization" => "Bearer #{ENV["SLACK_SLASH_COMMAND_TOKEN"]}"
+          "Authorization" => "Bearer #{ENV["SLACK_BOT_TOKEN"]}"
         }
       })
 
