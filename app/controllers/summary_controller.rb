@@ -23,7 +23,7 @@ class SummaryController < ApplicationController
 
     hoops.each do |h|
       event = OpenStruct.new
-      event.name = "#{h.slack_user_name} is #{h.hoop_type}"
+      event.name = "#{h.slack_user_name} OOO(#{h.hoop_type})"
       result << event
     end
   end

@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_02_06_113822) do
     t.string "slack_user_name", null: false
     t.string "hoop_type", null: false
     t.date "start_date", null: false
-    t.date "end_date", null: false
+    t.date "end_date"
     t.boolean "active", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

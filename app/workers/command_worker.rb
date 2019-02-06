@@ -3,7 +3,7 @@ class CommandWorker
   sidekiq_options :retry => false
 
   def perform(params)
-    Commands::Processor.init(params).run
+    Commands::Add.new(params).run
   rescue => e
     puts e.message
     puts e.backtrace

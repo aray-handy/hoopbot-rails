@@ -1,22 +1,25 @@
 module Commands
   class Add
-    attr_accessor :text, :response_url, :user_name
+    attr_accessor :type, :start_date, :end_date, :response_url, :user_name
 
     def initialize(params)
+      @type = params["type"]
       @user_name = params["user_name"]
-      @text = params["text"].gsub("add", "")
+      @start_date = Date.strptime(params["start_date"], "%Y-%m-%d")
+      @end_date = if params["end_date"]
+                    Date.strptime(params["end_date"], "%Y-%m-%d")
+                  else
+                    @start_date
+                  end
       @response_url = params["response_url"]
     end
 
     def run
-      start_date = text.split(":").first.strip
-      end_date = text.split(":").last.try!(:strip)
-
       params = {
         slack_user_name: user_name,
-        hoop_type: Types::OOO,
-        start_date: Date.strptime(start_date, "%Y-%m-%d"),
-        end_date: Date.strptime(end_date, "%Y-%m-%d"),
+        hoop_type: type,
+        start_date: start_date,
+        end_date: end_date
       }
 
       SheetWriter.write(*params.values)

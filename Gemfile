@@ -18,6 +18,7 @@ gem 'google-api-client'
 gem "sidekiq"
 gem "simple_calendar", "~> 2.0"
 gem "haml"
+gem 'slack-ruby-client'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
