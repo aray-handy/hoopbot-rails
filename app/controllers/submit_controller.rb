@@ -5,6 +5,7 @@ class SubmitController < ApplicationController
         type: submission[:type],
         start_date: submission[:start_date],
         end_date: submission[:end_date],
+        description: submission[:description].to_s,
         user_name: parsed_payload[:user][:name],
         response_url: response_url
       }

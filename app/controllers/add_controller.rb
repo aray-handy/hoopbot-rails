@@ -36,14 +36,21 @@ class AddController < ApplicationController
                 ],
             },
             {
+              "type": "text",
+              "label": "What's this OOO for?",
+              "name": "description",
+              "placeholder": "Headed to Iceland!",
+              "optional": true,
+            },
+            {
                 "type": "text",
-                "label": "Start Date",
+                "label": "First day you are OOO",
                 "name": "start_date",
                 "placeholder": "yyyy-mm-dd"
             },
             {
                 "type": "text",
-                "label": "End Date",
+                "label": "Last day you are OOO",
                 "name": "end_date",
                 "placeholder": "yyyy-mm-dd",
                 "optional": true,
