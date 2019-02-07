@@ -10,8 +10,10 @@ class SubmitController < ApplicationController
         response_url: response_url
       }
 
+      approvee_name = parsed_payload[:user][:name]
+
       open_message = {
-        user: parsed_payload[:user][:id]
+        user: parsed_payload[:user][:id], 
       }
 
       response = HTTParty.post("https://slack.com/api/im.open", {
@@ -26,7 +28,7 @@ class SubmitController < ApplicationController
 
       post_message = {
         channel: channel_id,
-        text: "Approve vacay for #{parsed_payload[:user][:name]}",
+        text: "Approve vacay for #{parsed_payload[:user][:name]} from #{submission[:start_date]} to #{submission[:end_date]}",
         icon_emoji: ":desert_island:",
         attachments: [
           {
@@ -39,13 +41,13 @@ class SubmitController < ApplicationController
                 "name": "yes",
                 "text": "Yes",
                 "type": "button",
-                "value": "yes"
+                "value": approvee_name,
               },
               {
                 "name": "no",
                 "text": "No",
                 "type": "button",
-                "value": "no"
+                "value": approvee_name,
               }
             ]
           }
@@ -61,13 +63,35 @@ class SubmitController < ApplicationController
       })
 
       CommandWorker.perform_async(command_params.to_h)
+      render json: {}, status: :ok
     elsif parsed_payload[:type] == "interactive_message" 
-    end
+      user_name = parsed_payload[:user][:name]
+      hoop_event = HoopEvent.where(slack_user_name: user_name).last
+      approval_status = parse_approval_status(params)
+      hoop_event.update_column(:status, approval_status)
 
-    render json: {}, status: :ok
+      interactive_response =
+        if approval_status == "approved"
+          "Yay"
+        else
+          "Boo"
+        end
+
+      render json: { text: interactive_response }, status: :ok
+    end
   end
 
   private
+
+  def parse_approval_status(params)
+    action = parsed_payload[:actions].first
+
+    if action[:name] == "yes"
+      "approved"
+    else
+      "rejected"
+    end
+  end
 
   def response_url
     parsed_payload[:response_url]

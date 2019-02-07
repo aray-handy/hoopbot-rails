@@ -8,7 +8,6 @@ module Commands
     end
 
     def run
-      binding.pry
       message = {
         "callback_id": "ryde-46e2b0",
         "title": "Request a Ride",
