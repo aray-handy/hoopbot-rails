@@ -61,6 +61,7 @@ class SubmitController < ApplicationController
       })
 
       CommandWorker.perform_async(command_params.to_h)
+    elsif parsed_payload[:type] == "interactive_message" 
     end
 
     render json: {}, status: :ok
