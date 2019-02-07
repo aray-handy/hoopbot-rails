@@ -14,4 +14,8 @@ class HoopEvent < ApplicationRecord
       "#{slack_user_name} is #{hoop_type}"
     end
   end
+
+  def approve!
+    update_attributes!(approved: true)
+  end
 end
