@@ -17,5 +17,11 @@ class HoopEvent < ApplicationRecord
 
   def approve!
     update_attributes!(approved: true)
+    update_attributes!(status: "approved")
+  end
+
+  def reject!
+    update_attributes!(approved: false)
+    update_attributes!(status: "rejected")
   end
 end
