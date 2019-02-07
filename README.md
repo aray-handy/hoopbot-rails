@@ -21,7 +21,7 @@ For Google API integration:
 * Add the following keys to your `.env` file:
     * GOOGLE_PRIVATE_KEY
     * GOOGLE_CLIENT_EMAIL
-    * SLACK_SLASH_COMMAND_TOKEN
+    * SLACK_USER_TOKEN
     * HOOP_SHEET_ID - create a new google sheet and copy the id from the address bar
 
 # To run the app
