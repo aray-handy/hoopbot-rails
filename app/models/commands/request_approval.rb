@@ -63,12 +63,6 @@ module Commands
                         "style": "danger",
                         "type": "button",
                         "value": "decline",
-                        "confirm": {
-                            "title": "Are you sure?",
-                            "text": "Wouldn't you prefer to talk to them first?",
-                            "ok_text": "Yes",
-                            "dismiss_text": "No"
-                        }
                     }
                 ]
             }
@@ -90,8 +84,14 @@ module Commands
     end
 
     def message_to_requestor
+      response = SlackHttpService.post(
+        "https://slack.com/api/users.info?user=#{@approver}",
+        {},
+        as: :bot
+      )
+
       {
-        text: "Thanks @#{user_name}! We sent a request to @#{approver} to approve your OOO request. We'll let you know when they respond!",
+        text: "Thanks @#{user_name}! We sent a request to #{response["user"]["name"]} to approve your OOO request. We'll let you know when they respond!",
         response_type: "ephemeral"
       }
     end
