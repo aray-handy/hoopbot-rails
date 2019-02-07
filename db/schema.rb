@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_06_230916) do
+ActiveRecord::Schema.define(version: 2019_02_07_171315) do
 
   create_table "hoop_events", force: :cascade do |t|
     t.string "slack_user_name", null: false
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2019_02_06_230916) do
     t.string "description"
     t.string "approver"
     t.boolean "approved", default: false
+    t.string "status", default: "pending", null: false
   end
 
 end

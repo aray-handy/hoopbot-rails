@@ -16,9 +16,13 @@ module Commands
       hoop_id = callback_id.split(":").last
       hoop = HoopEvent.find(hoop_id)
 
-      if approved && hoop
+      raise StandardError, "Could not find Hoop Event #{hoop_id}" if hoop.blank?
+
+      if approved
         hoop.approve!
         SlackHttpService.post(Constants::POST_MESSAGE_URL, message_to_requestor, as: :bot)
+      else
+        hoop.reject!
       end
     end
 
