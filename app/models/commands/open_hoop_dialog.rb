@@ -1,4 +1,4 @@
-module Command
+module Commands
   class OpenHoopDialog
     attr_accessor :trigger_id
 
@@ -81,7 +81,7 @@ module Command
         }
       }
 
-      SlackHttpService.post("https://slack.com/api/dialog.open", message, as: app)
+      SlackHttpService.post("https://slack.com/api/dialog.open", message, as: :app)
     end
   end
 end

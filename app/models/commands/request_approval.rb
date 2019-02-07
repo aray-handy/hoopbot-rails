@@ -18,8 +18,8 @@ module Commands
 
     def run
       make_hoop_event!
-      SlackHttpService.post(response_url, message_to_requestor, :app)
-      SlackHttpService.post(Constants::POST_MESSAGE_URL, message_to_approver, :bot)
+      SlackHttpService.post(response_url, message_to_requestor, as: :app)
+      SlackHttpService.post(Constants::POST_MESSAGE_URL, message_to_approver, as: :bot)
     end
 
     private

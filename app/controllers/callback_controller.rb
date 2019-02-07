@@ -10,25 +10,28 @@ class CallbackController < ApplicationController
         approver: submission[:approver],
         response_url: response_url
       }
-      command = "RequestApproval"
+      command = "Commands::RequestApproval"
+      response_body = {}
     elsif parsed_payload[:type] == "interactive_message"
-      if parsed_payload[:callback_id] == Constants::HOOP_REQUEST
+      if parsed_payload[:callback_id].include? Constants::HOOP_REQUEST
         command_params = {
           type: parsed_payload[:type],
           approver: parsed_payload[:user][:name],
           response_url: response_url,
           action: action,
-          callback_id: parsed_payload[:callback_id]
+          callback_id: parsed_payload[:callback_id],
+          user_name: parsed_payload[:user][:name],
         }
+        command = "Commands::ProcessHoopResponse"
       end
-      command = "ProcessHoopResponse"
+      response_body = "Thank you!"
     end
 
     if command_params.present?
       CommandWorker.perform_async(command, command_params.to_h)
     end
 
-    render json: {}, status: :ok
+    render json: response_body, status: :ok
   end
 
   private

@@ -3,7 +3,7 @@ class SlackHttpService
     if as == :app
       headers = {
         "Content-Type" => "application/json",
-        "Authorization" => "Bearer #{ENV["SLACK_APP_TOKEN"]}"
+        "Authorization" => "Bearer #{ENV["SLACK_USER_TOKEN"]}"
       }
     else
       headers = {
