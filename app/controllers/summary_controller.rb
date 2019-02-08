@@ -8,6 +8,7 @@ class SummaryController < ApplicationController
     @type = params[:type]
     @user_name = params[:slack_username]
     @hoops = HoopEvent.where("start_date > ? AND end_date < ?", start_of_period, end_of_period)
+
     if @user_name
       @hoops = @hoops.where(slack_user_name: @user_name)
     end
@@ -45,7 +46,7 @@ class SummaryController < ApplicationController
   end
 
   def start_date
-    Date.parse(params[:start_date], "%Y-%m-%d")
+    DateTime.parse(params[:start_date], "%Y-%m-%d")
   rescue
     nil
   end
