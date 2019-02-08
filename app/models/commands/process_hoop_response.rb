@@ -15,6 +15,7 @@ module Commands
     def run
       hoop_id = callback_id.split(":").last
       hoop = HoopEvent.find(hoop_id)
+      @requestor = hoop.slack_user_name
 
       raise StandardError, "Could not find Hoop Event #{hoop_id}" if hoop.blank?
 
@@ -30,8 +31,8 @@ module Commands
     def approval_message_to_requestor
       {
         as_user: true,
-        channel: "@#{user_name}",
-        text: "Hooray @#{user_name}! Your request for OOO has been approved by @#{approver}!",
+        channel: "@#{@requestor}",
+        text: "Hooray @#{@requestor}! Your request for OOO has been approved by @#{approver}!",
         response_type: "ephemeral"
       }
     end
@@ -39,8 +40,8 @@ module Commands
     def reject_message_to_requestor
       {
         as_user: true,
-        channel: "@#{user_name}",
-        text: "Booo @#{user_name}! Your manager's mean!!",
+        channel: "@#{@requestor}",
+        text: "Booo @#{@requestor}! Your manager's mean!!",
         response_type: "ephemeral"
       }
     end
