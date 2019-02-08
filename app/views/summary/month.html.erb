@@ -1,9 +1,15 @@
 <%= month_calendar events: @events do |date, meetings| %>
-  <%= date %>
+  <%= date.day %>
 
   <% meetings.each do |meeting| %>
-    <div>
-      <%= meeting.name %>
-    </div>
+    <% if meeting.approved? %>
+      <div class="approved">
+        <%= meeting.name %>
+      </div>
+    <% else %>
+      <div class="rejected">
+        <%= meeting.name %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>
