@@ -20,17 +20,27 @@ module Commands
 
       if approved
         hoop.approve!
-        SlackHttpService.post(Constants::POST_MESSAGE_URL, message_to_requestor, as: :bot)
+        SlackHttpService.post(Constants::POST_MESSAGE_URL, approval_message_to_requestor, as: :bot)
       else
         hoop.reject!
+        SlackHttpService.post(Constants::POST_MESSAGE_URL, reject_message_to_requestor, as: :bot)
       end
     end
 
-    def message_to_requestor
+    def approval_message_to_requestor
       {
         as_user: true,
         channel: "@#{user_name}",
         text: "Hooray @#{user_name}! Your request for OOO has been approved by @#{approver}!",
+        response_type: "ephemeral"
+      }
+    end
+
+    def reject_message_to_requestor
+      {
+        as_user: true,
+        channel: "@#{user_name}",
+        text: "Booo @#{user_name}! Your manager's mean!!",
         response_type: "ephemeral"
       }
     end
