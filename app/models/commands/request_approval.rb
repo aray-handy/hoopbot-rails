@@ -53,12 +53,6 @@ module Commands
                     },
                     {
                         "name": Constants::HOOP_REQUEST_ACTION,
-                        "text": "Remind me later",
-                        "type": "button",
-                        "value": "snooze"
-                    },
-                    {
-                        "name": Constants::HOOP_REQUEST_ACTION,
                         "text": "Decline",
                         "style": "danger",
                         "type": "button",
